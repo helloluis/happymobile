@@ -25,9 +25,11 @@
   <content src="index.html" />
   <access origin="*" />
   
+  <gap:plugin name="com.phonegap.plugins.facebookconnect">
+    <param name="APP_ID" value="490869927652398" />
+    <param name="APP_NAME" value="Happy.ph" />
+  </gap:plugin>
+    
 </widget>
 
-<gap:plugin name="com.phonegap.plugins.facebookconnect">
-  <param name="APP_ID" value="490869927652398" />
-  <param name="APP_NAME" value="Happy.ph" />
-</gap:plugin>
+
