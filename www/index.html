@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <title>Hello World</title>
+    </head>
+    <body>
+
+        <html>
+<head>
+  <link rel='stylesheet' href='css/styles.css'></link>
+</head>
+<body>
+  
+  <div id="fb-root"></div>
+
+  <div class='app'>
+
+    <header class='header'>
+      <div class='show_settings_panel'></div>
+      <h1>Happy</h1>
+      <div class='show_shopping_cart_panel'></div>
+    </header>
+
+    <nav class='settings_panel'>
+      <h2>Categories</h2>
+      <ul class='categories'>
+      </ul>
+    </nav>
+    
+    <div id='loading'>Loading ...</div>
+
+    <section class='page welcome' id='welcome'>
+      <h1 class='logo'>Happy</h1>
+      <button class='login_via_facebook'>Sign in with Facebook</button>
+      <div class='secondary_login'>
+        <a href="merchant_login" class="link_to_section">Merchants login here</a>
+      </div>  
+    </section>
+
+    <section class='page marketplace' id='marketplace'>
+      <ul class='products' id='products'></ul>
+    </section>
+
+    <section class='page dashboard' id='dashboard'>
+    </section>
+
+    <section class='page messages' id='inbox'>
+    </section>
+
+    <section class='page message-thread' id='message'>
+    </section>
+
+    <section class='page product' id='product'>
+    </section>
+
+  </div>
+  
+  <script type="text/javascript" src="phonegap.js"></script>
+  
+  <script type="text/javascript" src="lib/cdv-plugin-fb-connect.js"></script>
+  <script type="text/javascript" src="lib/facebook-js-sdk.js"></script> 
+
+  <script type="text/javascript" src="lib/jquery-1.8.2.min.js"></script>
+  <script type="text/javascript" src="lib/jquery.jsonp.js"></script>
+  <script type="text/javascript" src="lib/jquery.timeago.js"></script>
+  <script type="text/javascript" src="lib/mustache.js"></script>
+  <script type="text/javascript" src="lib/underscore.js"></script>
+  <script type="text/javascript" src="js/storage/memory-store.js"></script>
+  <script type="text/javascript" src="js/main.js"></script>
+
+  <script id="product_tmpl" type="text/template">
+    <li class='product clearfix appended'>
+      <div class='product_images_container'>
+        <div class='product_image quick_view' data-background="{{primary_image}}">
+          <a href="#product-{{_id}}"></a>
+        </div>
+        <div class='product_actions clearfix'>
+          <a href="#product-{{_id}}">Buy this item</a>
+          <a href="#message-{{_id}}" class='contact_merchant'>Contact Seller</a>
+        </div>
+        <div class='product_info'>
+          <h2><a href="{{_id}}">{{name}}</a></h2>
+          <h3><a href="{{site.subdomain}}" class='link_to_shop'>{{site.title}}</a></h3>
+          <div class='product_prices_summarized'>
+            <p>{{lowest_price}}</p>
+          </div>
+          <h4 class='category_name'><a href="{{category_slug}}" class='link_to_category'>{{category_slug}}</a></h4>
+          <p class='product_description'>{{{description}}}</p>
+          <a href="{{_id}}" class="link_to_toggle_favorite">
+            <span class='icon heart heart_inactive'></span>
+            <span class='heart_label' data-unhearted='Add to Favorites' data-hearted='Favorite!'>Add to Favorites</span>
+          </a>
+        </div>
+        <div class='share_tools_container'></div>
+      </div>
+    </li>
+  </script>
+
+  <script id='message_tmpl' type="text/template">
+    <li class='message clearfix'>
+      <h3 class='message_author'><span class='message_author_avatar' style='background-image:url({{avatar}})'></span>{{name}}</h3>
+      <p class='message_body'>{{body}}</p>
+    </li>
+  </script>
+
+  <script>
+
+  $(function(){
+    
+    App.initialize();
+    document.addEventListener('deviceready',  function() {
+                                                try {
+                                                  alert('Device is ready! Make sure you set your app_id below this alert.');
+                                                  FB.init({ appId: App.facebook_id, nativeInterface: CDV.FB, useCachedDialogs: false });
+                                                  $("#loading").hide();
+                                                } catch (e) {
+                                                  alert(e);
+                                                } 
+                                              }, false);
+    
+
+    FB.Event.subscribe( 'auth.login', function(response) {
+                          App.fetch(true);
+                        });
+            
+    FB.Event.subscribe( 'auth.logout', function(response) {
+                          alert('auth.logout event');
+                        });
+    
+    FB.Event.subscribe( 'auth.sessionChange', function(response) {
+                          alert('auth.sessionChange event');
+                        });
+    
+    FB.Event.subscribe( 'auth.statusChange', function(response) {
+                          alert('auth.statusChange event');
+                        });
+
+    
+    $("#welcome .loading").hide();
+
+  });
+  </script>
+
+</body>
+</html>
+       <!--  
+       <div class="app">
+            <h1>Apache Cordova</h1>
+            <div id="deviceready" class="blink">
+                <p class="event listening">Connecting to Device</p>
+                <p class="event received">Device is Ready</p>
+            </div>
+        </div>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript">
+            app.initialize();
+        </script>
+    </body>
+</html>
+ -->
